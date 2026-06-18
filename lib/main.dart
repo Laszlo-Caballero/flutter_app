@@ -1,4 +1,5 @@
 import 'package:app_machin/layout/MainLayout.dart';
+import 'package:app_machin/providers/AnalysisProvider.dart';
 import 'package:app_machin/providers/ImageProvider.dart';
 import 'package:app_machin/providers/RouteProvider.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +35,13 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ImageSearchProvider()),
           ChangeNotifierProvider(create: (_) => Routeprovider()),
+          ChangeNotifierProvider(create: (_) => AnalysisProvider()),
         ],
         child: Mainlayout(),
       ),

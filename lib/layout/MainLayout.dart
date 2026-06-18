@@ -1,4 +1,5 @@
 import 'package:app_machin/components/IconNavBar.dart';
+import 'package:app_machin/pages/AnalyzePage.dart';
 import 'package:app_machin/pages/GaleryPage.dart';
 import 'package:app_machin/pages/HistoryPage.dart';
 import 'package:app_machin/pages/HomePage.dart';
@@ -24,6 +25,8 @@ class _MainLayout extends State<Mainlayout> {
         return Historypage();
       case "/settings":
         return Settingspage();
+      case "/analyze":
+        return const AnalyzePage();
       default:
         return HomePage();
     }
