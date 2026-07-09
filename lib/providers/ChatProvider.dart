@@ -18,7 +18,7 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> sendMessage(String text) async {
+  Future<void> sendMessage(String text, String? token) async {
     if (text.trim().isEmpty) return;
 
     final userMessage = ChatMessage(role: 'user', content: text);
@@ -28,7 +28,7 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await _chatApi.sendChat(_messages);
+      final response = await _chatApi.sendChat(_messages, token);
       if (response != null) {
         final assistantMessage = ChatMessage(
           role: 'assistant',

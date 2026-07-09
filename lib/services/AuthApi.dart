@@ -4,13 +4,17 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthApi {
   final Dio dio = Dio(BaseOptions(
-    baseUrl: dotenv.get("PUBLIC_API", fallback: "http://localhost:8000/api"),
+    baseUrl: _normalizeUrl(dotenv.get("PUBLIC_API", fallback: "http://localhost:8000/api")),
   ));
+
+  static String _normalizeUrl(String url) {
+    return url.endsWith('/') ? url : '$url/';
+  }
 
   Future<AuthData?> login(String username, String password) async {
     try {
       final res = await dio.post(
-        '/auth/login',
+        'auth/login',
         data: {
           'username': username,
           'password': password,
@@ -32,7 +36,7 @@ class AuthApi {
   Future<AuthData?> register(String username, String email, String password) async {
     try {
       final res = await dio.post(
-        '/auth/register',
+        'auth/register',
         data: {
           'username': username,
           'email': email,

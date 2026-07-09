@@ -21,21 +21,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => ImageSearchProvider()),
-          ChangeNotifierProvider(create: (_) => Routeprovider()),
-          ChangeNotifierProvider(create: (_) => AnalysisProvider()),
-          ChangeNotifierProvider(create: (_) => AuthProvider()),
-          ChangeNotifierProvider(create: (_) => SettingsProvider()),
-          ChangeNotifierProvider(create: (_) => ChatProvider()),
-        ],
-        child: Consumer<AuthProvider>(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ImageSearchProvider()),
+        ChangeNotifierProvider(create: (_) => Routeprovider()),
+        ChangeNotifierProvider(create: (_) => AnalysisProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(create: (_) => ChatProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        home: Consumer<AuthProvider>(
           builder: (context, auth, _) {
             if (auth.isLoggedIn) {
               return Mainlayout();

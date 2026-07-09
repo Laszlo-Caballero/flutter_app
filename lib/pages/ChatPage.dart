@@ -1,4 +1,5 @@
 import 'package:app_machin/providers/ChatProvider.dart';
+import 'package:app_machin/providers/AuthProvider.dart';
 import 'package:app_machin/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -191,7 +192,8 @@ class _ChatPageState extends State<ChatPage> {
                               ),
                               onSubmitted: (val) {
                                 if (val.trim().isNotEmpty) {
-                                  chatProvider.sendMessage(val.trim());
+                                  final auth = Provider.of<AuthProvider>(context, listen: false);
+                                  chatProvider.sendMessage(val.trim(), auth.token);
                                   _messageController.clear();
                                 }
                               },
@@ -218,7 +220,8 @@ class _ChatPageState extends State<ChatPage> {
                   onPressed: () {
                     final text = _messageController.text;
                     if (text.trim().isNotEmpty) {
-                      chatProvider.sendMessage(text.trim());
+                      final auth = Provider.of<AuthProvider>(context, listen: false);
+                      chatProvider.sendMessage(text.trim(), auth.token);
                       _messageController.clear();
                     }
                   },

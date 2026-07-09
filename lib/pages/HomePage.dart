@@ -3,6 +3,7 @@ import 'package:app_machin/providers/ImageProvider.dart';
 import 'package:app_machin/providers/RouteProvider.dart';
 import 'package:app_machin/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:app_machin/components/QrScannerDialog.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,12 +52,25 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: AppColors.yellow,
             textColor: AppColors.brown,
             icon: Icons.upload_file_outlined,
-            text: "Subir desde Galeria",
+            text: "Subir desde Galería",
             onTap: () async {
               final bool redirect = await imageProvider.pickImageFromGallery();
               if (redirect) {
                 routeProvider.navigateTo('/analyze');
               }
+            },
+          ),
+          SizedBox(height: 36),
+          ButtonImage(
+            backgroundColor: const Color(0xFF1A7F75),
+            textColor: Colors.white,
+            icon: Icons.qr_code_scanner,
+            text: "Escanear Código QR",
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => const QrScannerDialog(),
+              );
             },
           ),
         ],

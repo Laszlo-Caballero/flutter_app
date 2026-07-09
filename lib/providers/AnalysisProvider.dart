@@ -16,7 +16,7 @@ class AnalysisProvider extends ChangeNotifier {
   Product? get selectedProduct => _selectedProduct;
   String? get errorMessage => _errorMessage;
 
-  Future<void> analyzeImage(File imageFile) async {
+  Future<void> analyzeImage(File imageFile, String? token) async {
     _isLoading = true;
     _errorMessage = null;
     _products = null;
@@ -25,7 +25,7 @@ class AnalysisProvider extends ChangeNotifier {
 
     try {
       await Future.delayed(const Duration(seconds: 2));
-      final results = await _productsApi.getProductsByImage(imageFile);
+      final results = await _productsApi.getProductsByImage(imageFile, token);
       if (results != null && results.isNotEmpty) {
         _products = results;
         _selectedProduct = results.first;

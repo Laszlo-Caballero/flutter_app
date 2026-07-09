@@ -21,7 +21,8 @@ class _SettingspageState extends State<Settingspage> {
       _isClearing = true;
     });
 
-    final success = await _historyApi.deleteHistory();
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    final success = await _historyApi.deleteHistory(auth.token);
 
     setState(() {
       _isClearing = false;

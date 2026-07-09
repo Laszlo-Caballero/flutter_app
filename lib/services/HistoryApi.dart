@@ -4,12 +4,23 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HistoryApi {
   final Dio dio = Dio(BaseOptions(
-    baseUrl: dotenv.get("PUBLIC_API", fallback: "http://localhost:8000/api"),
+    baseUrl: _normalizeUrl(dotenv.get("PUBLIC_API", fallback: "http://localhost:8000/api")),
   ));
 
-  Future<List<HistoryItem>?> getHistory() async {
+  static String _normalizeUrl(String url) {
+    return url.endsWith('/') ? url : '$url/';
+  }
+
+  Future<List<HistoryItem>?> getHistory(String? token) async {
     try {
-      final res = await dio.get('/history');
+      final res = await dio.get(
+        'history',
+        options: Options(
+          headers: {
+            if (token != null) 'Authorization': 'Bearer $token',
+          },
+        ),
+      );
       if (res.statusCode == 200) {
         final dynamic responseData = res.data;
         if (responseData is List) {
@@ -27,9 +38,16 @@ class HistoryApi {
     }
   }
 
-  Future<bool> deleteHistory() async {
+  Future<bool> deleteHistory(String? token) async {
     try {
-      final res = await dio.delete('/history');
+      final res = await dio.delete(
+        'history',
+        options: Options(
+          headers: {
+            if (token != null) 'Authorization': 'Bearer $token',
+          },
+        ),
+      );
       if (res.statusCode == 200) {
         return true;
       }

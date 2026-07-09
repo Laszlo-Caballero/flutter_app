@@ -1,8 +1,10 @@
 import 'package:app_machin/models/HistoryItem.dart';
+import 'package:app_machin/providers/AuthProvider.dart';
 import 'package:app_machin/services/HistoryApi.dart';
 import 'package:app_machin/utils/colors.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Historypage extends StatefulWidget {
   @override
@@ -28,7 +30,8 @@ class _HistorypageState extends State<Historypage> {
     });
 
     try {
-      final items = await _historyApi.getHistory();
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final items = await _historyApi.getHistory(authProvider.token);
       setState(() {
         _historyItems = items;
         _isLoading = false;

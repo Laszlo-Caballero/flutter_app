@@ -1,8 +1,7 @@
-import 'package:app_machin/models/ChatModels.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class ChatApi {
+class PromotionsApi {
   final Dio dio = Dio(BaseOptions(
     baseUrl: _normalizeUrl(dotenv.get("PUBLIC_API", fallback: "http://localhost:8000/api")),
   ));
@@ -11,22 +10,21 @@ class ChatApi {
     return url.endsWith('/') ? url : '$url/';
   }
 
-  Future<ChatResponse?> sendChat(List<ChatMessage> messages, String? token) async {
+  Future<Map<String, dynamic>?> redeemPromotion(String code, String? token) async {
     try {
-      final res = await dio.post(
-        'products/chat',
-        data: {
-          'messages': messages.map((m) => m.toJson()).toList(),
-        },
+      final res = await dio.get(
+        'promotions/redeem/$code',
         options: Options(
           headers: {
             if (token != null) 'Authorization': 'Bearer $token',
           },
         ),
       );
-
       if (res.statusCode == 200 && res.data != null) {
-        return ChatResponse.fromJson(res.data);
+        final dynamic responseData = res.data;
+        if (responseData is Map<String, dynamic>) {
+          return responseData;
+        }
       }
       return null;
     } catch (e) {

@@ -1,7 +1,7 @@
 class Product {
   final int? productoId;
   final String? nombre;
-  final List<int>? precios;
+  final List<double>? precios;
   final String? vendido_por;
   final String? marca;
   final String? url_venta;
@@ -31,7 +31,9 @@ class Product {
     return Product(
       productoId: json['productoId'],
       nombre: json['nombre'],
-      precios: List<int>.from(json['precios'] ?? []),
+      precios: (json['precios'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
+          .toList(),
       vendido_por: json['vendido_por'],
       marca: json['marca'],
       url_venta: json['url_venta'],

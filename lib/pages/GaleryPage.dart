@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:app_machin/models/Product.dart';
+import 'package:app_machin/providers/AuthProvider.dart';
 import 'package:app_machin/services/ProductsApi.dart';
 import 'package:app_machin/utils/colors.dart';
+import 'package:app_machin/pages/ProductDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 class Galerypage extends StatefulWidget {
   const Galerypage({super.key});
@@ -41,7 +44,8 @@ class _GalerypageState extends State<Galerypage> {
     });
 
     try {
-      final results = await _productsApi.getProducts(query);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final results = await _productsApi.getProducts(query, authProvider.token);
       setState(() {
         _products = results ?? [];
         _isLoading = false;
@@ -168,64 +172,75 @@ class _GalerypageState extends State<Galerypage> {
           margin: const EdgeInsets.symmetric(vertical: 8),
           elevation: 2,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              children: [
-                // Product image
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    color: Colors.grey[100],
-                    child: product.imagenes != null && product.imagenes!.isNotEmpty
-                        ? Image.network(
-                            product.imagenes!.first.url!.startsWith('http')
-                                ? product.imagenes!.first.url!
-                                : '${dotenvGetApi()}${product.imagenes!.first.url}',
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Icon(Icons.shopping_bag, size: 30, color: AppColors.gray),
-                          )
-                        : const Icon(Icons.shopping_bag, size: 30, color: AppColors.gray),
-                  ),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailPage(product: product),
                 ),
-                const SizedBox(width: 16),
+              );
+            },
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                children: [
+                  // Product image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      color: Colors.grey[100],
+                      child: product.imagenes != null && product.imagenes!.isNotEmpty
+                          ? Image.network(
+                              product.imagenes!.first.url!.startsWith('http')
+                                  ? product.imagenes!.first.url!
+                                  : '${dotenvGetApi()}${product.imagenes!.first.url}',
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.shopping_bag, size: 30, color: AppColors.gray),
+                            )
+                          : const Icon(Icons.shopping_bag, size: 30, color: AppColors.gray),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
 
-                // Product details
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.nombre ?? "Producto Genérico",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.blue),
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            product.marca ?? "Sin marca",
-                            style: const TextStyle(color: AppColors.gray, fontSize: 12),
-                          ),
-                          Text(
-                            priceString,
-                            style: const TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                  // Product details
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.nombre ?? "Producto Genérico",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.blue),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              product.marca ?? "Sin marca",
+                              style: const TextStyle(color: AppColors.gray, fontSize: 12),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            Text(
+                              priceString,
+                              style: const TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
