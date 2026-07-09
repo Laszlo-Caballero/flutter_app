@@ -26,4 +26,38 @@ class Productsapi {
       return null;
     }
   }
+
+  Future<List<Product>?> getProducts(String query) async {
+    try {
+      final res = await dio.get('/products', queryParameters: {
+        if (query.isNotEmpty) 'query': query,
+      });
+      if (res.statusCode == 200 && res.data != null) {
+        final data = res.data['data'];
+        if (data is List) {
+          return data.map((e) => Product.fromJson(e)).toList();
+        }
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<Product>?> voiceSearch(String query) async {
+    try {
+      final res = await dio.get('/products/voice', queryParameters: {
+        'query': query,
+      });
+      if (res.statusCode == 200 && res.data != null) {
+        final data = res.data['data'];
+        if (data is List) {
+          return data.map((e) => Product.fromJson(e)).toList();
+        }
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 }

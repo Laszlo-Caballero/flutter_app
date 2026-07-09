@@ -4,6 +4,7 @@ import 'package:app_machin/pages/GaleryPage.dart';
 import 'package:app_machin/pages/HistoryPage.dart';
 import 'package:app_machin/pages/HomePage.dart';
 import 'package:app_machin/pages/SettingsPage.dart';
+import 'package:app_machin/pages/ChatPage.dart';
 import 'package:app_machin/providers/RouteProvider.dart';
 import 'package:app_machin/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class _MainLayout extends State<Mainlayout> {
         return HomePage();
       case "/galery":
         return Galerypage();
+      case "/chat":
+        return const ChatPage();
       case "/history":
         return Historypage();
       case "/settings":
@@ -98,11 +101,18 @@ class _MainLayout extends State<Mainlayout> {
               onTap: () => routeProvider.navigateTo('/'),
             ),
             Iconnavbar(
-              iconNav: Icons.photo_library_outlined,
-              title: "Galería",
+              iconNav: Icons.search,
+              title: "Buscar",
               route: "/galery",
               currentRoute: routeProvider.currentRoute,
               onTap: () => routeProvider.navigateTo('/galery'),
+            ),
+            Iconnavbar(
+              iconNav: Icons.chat_bubble_outline,
+              title: "Asistente",
+              route: "/chat",
+              currentRoute: routeProvider.currentRoute,
+              onTap: () => routeProvider.navigateTo('/chat'),
             ),
             Iconnavbar(
               iconNav: Icons.history,

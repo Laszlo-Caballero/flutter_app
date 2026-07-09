@@ -19,7 +19,7 @@ class Iconnavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final horizontalPadding = currentRoute == route ? 24.0 : 16.0;
+    final horizontalPadding = currentRoute == route ? 12.0 : 8.0;
     final colorText = currentRoute == route ? AppColors.brown : AppColors.gray;
     final backGroundColor = currentRoute == route
         ? AppColors.yellow
@@ -31,7 +31,7 @@ class Iconnavbar extends StatelessWidget {
 
       child: Container(
         padding: EdgeInsets.symmetric(
-          vertical: 8,
+          vertical: 6,
           horizontal: horizontalPadding,
         ),
         decoration: BoxDecoration(
@@ -40,13 +40,14 @@ class Iconnavbar extends StatelessWidget {
         ),
         child: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(iconNav, color: colorText, size: 20),
+              Icon(iconNav, color: colorText, size: 18),
               Text(
                 title,
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 14,
+                  fontSize: 11,
                   fontWeight: FontWeight.w500,
                 ),
               ),
