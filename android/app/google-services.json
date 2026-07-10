@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "236726571062",
+    "project_id": "tienda-e4552",
+    "storage_bucket": "tienda-e4552.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236726571062:android:e401ceb899e5b533f48897",
+        "android_client_info": {
+          "package_name": "com.laszlo.tienda_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbxOx2k9qQ8LW7ml1xd6QVLmUbC-t5y_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
